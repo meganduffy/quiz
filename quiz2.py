@@ -6,6 +6,7 @@ def get_questions():
         f.writelines(raw_input("Add your own question here:"))
         f.write("\n")
         f.writelines(raw_input("Add the answer to your question here:"))
+        f.writelines("\n")
         lines = f.readlines()
     return [(lines[i], lines[i+1].strip()) for i in range(0, len(lines), 2)]
 

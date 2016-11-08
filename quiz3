@@ -1,0 +1,53 @@
+#
+#
+# while True: # Keep going for ever
+#     question = raw_input("What is your new question?")
+#     if not question:
+#        break
+#     answer = raw_input("What is the answer?")
+#     if not answer:
+#        break
+#     f.write(question)
+#     f.write("\n")
+#     f.write(answer)
+#     f.write("\n")
+#     # Or equivalently output_file.writelines([question, answer])
+# output_file.close()
+
+def write_questions():
+    print "Welcome, please add 3 questions and answers to the quiz..."
+    with open("questions.txt", "a") as f:
+        count = 3
+        while count > 0:
+            question = raw_input("Add your question here:")
+            count -= 1
+            if not question:
+                break
+            answer = raw_input("Add the answer to your question here:")
+            if not answer:
+                break
+            f.write(question)
+            f.write("\n")
+            f.write(answer)
+            f.write("\n")
+
+def get_questions():
+    with open("questions.txt") as f:
+        lines = f.readlines()
+    return [(lines[i], lines[i+1].strip()) for i in range(0, len(lines), 2)]
+
+write_questions()
+
+questions = get_questions()
+tries = 3
+score = 0
+total = len(questions)
+
+for question, answer in questions:
+    guess = raw_input(question)
+    while tries > 0:
+        if guess == answer:
+            score += 1
+        else:
+            tries -= 1
+print "You got %s out of %s questions right" % (score, total)
