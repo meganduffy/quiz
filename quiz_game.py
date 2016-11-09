@@ -1,3 +1,5 @@
+from difflib import SequenceMatcher
+
 def get_questions():
     with open("quiz_game_sample.txt") as f:
         lines = f.readlines()
@@ -12,10 +14,12 @@ for question, answer in questions:
     count = 1
     while True:
         guess = raw_input(question)
-        if guess == answer:
+        guess = SequenceMatcher(None, guess, answer)
+        guess = guess.quick_ratio()
+        if guess >= 0.65:
             score += 1
             break
-        elif guess != answer and count > 0:
+        elif guess < 0.65 and count > 0:
             count -= 1
             print "One more try!"
             continue

@@ -1,3 +1,5 @@
+from difflib import SequenceMatcher
+
 def write_questions():
     print "Welcome, please add 3 questions and answers to the quiz..."
     with open("questions.txt", "a") as f:
@@ -30,10 +32,12 @@ for question, answer in questions:
     count = 1
     while True:
         guess = raw_input(question)
-        if guess == answer:
+        guess = SequenceMatcher(None, guess, answer)
+        guess = guess.quick_ratio()
+        if guess >= 0.5:
             score += 1
             break
-        elif guess != answer and count > 0:
+        elif guess < 0.5 and count > 0:
             count -= 1
             print "One more try!"
             continue
@@ -42,4 +46,3 @@ for question, answer in questions:
             break
 
 print "You got %s out of %s questions right" % (score, total)
-
